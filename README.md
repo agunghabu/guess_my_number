@@ -17,5 +17,5 @@ This is a simple game of guessing correct number from 1 to 20 with functionaliti
 
 ### Screenshot :
 
-![Alt text](/Guess_my_number/images/gmn1.PNG)
-![Alt text](/Guess_my_number/images/gmn2.PNG)
+![Alt text](/guess_my_number/images/gmn1.PNG)
+![Alt text](/guess_my_number/images/gmn2.PNG)
