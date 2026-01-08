@@ -11,12 +11,43 @@ document.querySelector('.guess').value = 23;
 console.log(document.querySelector('.guess').value);
 */
 
-let secretNumber = Math.trunc(Math.random() * 20) + 1;
-let score = 20;
+// Difficulty settings
+const difficulties = {
+  easy: { max: 20, initialScore: 20 },
+  medium: { max: 50, initialScore: 30 },
+  hard: { max: 100, initialScore: 50 }
+};
+
+let currentDifficulty = 'easy';
+let maxNumber = difficulties[currentDifficulty].max;
+let secretNumber = Math.trunc(Math.random() * maxNumber) + 1;
+let score = difficulties[currentDifficulty].initialScore;
 let highscore = 0;
 
 const displayMessage = function (message) {
   document.querySelector('.message').textContent = message;
+};
+
+const updateDifficulty = function (level) {
+  currentDifficulty = level;
+  maxNumber = difficulties[level].max;
+  score = difficulties[level].initialScore;
+  secretNumber = Math.trunc(Math.random() * maxNumber) + 1;
+  
+  // Update UI
+  document.querySelector('.between').textContent = `(Between 1 and ${maxNumber})`;
+  document.querySelector('.score').textContent = score;
+  document.querySelector('.message').textContent = 'Start guessing...';
+  document.querySelector('.number').textContent = '?';
+  document.querySelector('.guess').value = '';
+  document.querySelector('body').style.backgroundColor = '#222';
+  document.querySelector('.number').style.width = '15rem';
+  
+  // Update active button
+  document.querySelectorAll('.btn-difficulty').forEach(btn => {
+    btn.classList.remove('active');
+  });
+  document.querySelector(`[data-level="${level}"]`).classList.add('active');
 };
 
 document.querySelector('.check').addEventListener('click', function () {
@@ -82,8 +113,8 @@ document.querySelector('.check').addEventListener('click', function () {
 });
 
 document.querySelector('.again').addEventListener('click', function () {
-  score = 20;
-  secretNumber = Math.trunc(Math.random() * 20) + 1;
+  score = difficulties[currentDifficulty].initialScore;
+  secretNumber = Math.trunc(Math.random() * maxNumber) + 1;
 
   // document.querySelector('.message').textContent = 'Start guessing...';
   displayMessage('Start guessing...');
@@ -93,4 +124,12 @@ document.querySelector('.again').addEventListener('click', function () {
 
   document.querySelector('body').style.backgroundColor = '#222';
   document.querySelector('.number').style.width = '15rem';
+});
+
+// Difficulty level buttons
+document.querySelectorAll('.btn-difficulty').forEach(button => {
+  button.addEventListener('click', function () {
+    const level = this.getAttribute('data-level');
+    updateDifficulty(level);
+  });
 });
