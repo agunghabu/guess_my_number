@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  guess-my-number-app:
+    image: agungsetya/guess_my_number:main
+    container_name: guess-my-number
+    ports:
+      - "2121:80"
+    restart: unless-stopped
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
